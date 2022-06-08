@@ -41,31 +41,19 @@ date.innerHTML = new Date().getFullYear()
 // scroll     ######links
 window.addEventListener('DOMContentLoaded', () => {
   const _li_link = document.querySelectorAll('li')
-  // highlight link on scroll
-  window.addEventListener('scroll', (e) => {
-    let navbar_height = navbar.getBoundingClientRect().height
-    let scroll_height = pageYOffset
-    _li_link.forEach((item) => {
-      let g = document.querySelector(`.${item.innerHTML}`)
-      if (scroll_height >= g.offsetTop - navbar_height) {
-        item.classList.add('highlight')
-        if (
-          scroll_height >=
-          g.getBoundingClientRect().height + g.offsetTop - navbar_height
-        ) {
-          item.classList.remove('highlight')
-        }
-      } else {
-        item.classList.remove('highlight')
-      }
-    })
-  })
-  // end of highlight link of scroll
-
   // scroll
   _li_link.forEach((item) => {
     item.addEventListener('click', (e) => {
       goal = document.querySelector(`.${item.innerHTML}`)
+      // highlight link
+      _li_link.forEach((i) => {
+        if (e.target == i) {
+          i.classList.add('highlight')
+        } else {
+          i.classList.remove('highlight')
+        }
+      })
+      // end of highlight link
       let navbar_height = navbar.getBoundingClientRect().height
       window.scrollTo({
         left: 0,
