@@ -1,11 +1,29 @@
-const Links = ['section1', 'section2', 'section3', 'section4']
+let Links = []
 const navbtn = document.querySelector('.navbtn')
 const xbtn = document.querySelector('.xbtn')
 const nav_links = document.querySelector('.nav-links')
 const links = document.querySelector('.links')
 const date = document.querySelector('.date')
 const navbar = document.querySelector('.navbar')
+const _section = document.querySelectorAll('.section')
 let goal
+
+// #############dynamic navbar
+// append links
+_section.forEach((item) => {
+  Links.push(item.firstElementChild.innerHTML)
+})
+
+let ul = document.createElement('ul')
+
+Links.forEach((link) => {
+  let li = document.createElement('li')
+  li.innerHTML += link
+  ul.appendChild(li)
+})
+links.appendChild(ul)
+// ############### rbd of dynamic navbar
+// end of append links
 
 // toogle_navbar
 xbtn.addEventListener('click', () => {
@@ -15,17 +33,6 @@ navbtn.addEventListener('click', () => {
   nav_links.classList.toggle('show-links')
 })
 // end of toggle_navbar
-
-// append links
-let ul = document.createElement('ul')
-
-Links.forEach((link) => {
-  let li = document.createElement('li')
-  li.innerHTML += link
-  ul.appendChild(li)
-})
-links.appendChild(ul)
-// end of append links
 
 // date
 date.innerHTML = new Date().getFullYear()
@@ -39,7 +46,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let navbar_height = navbar.getBoundingClientRect().height
     let scroll_height = pageYOffset
     _li_link.forEach((item) => {
-      let g = document.querySelector(`.${item.textContent}`)
+      let g = document.querySelector(`.${item.innerHTML}`)
       if (scroll_height >= g.offsetTop - navbar_height) {
         item.classList.add('highlight')
         if (
@@ -58,20 +65,12 @@ window.addEventListener('DOMContentLoaded', () => {
   // scroll
   _li_link.forEach((item) => {
     item.addEventListener('click', (e) => {
-      goal = document.querySelector(`.${item.textContent}`)
-      // highlight link
-      _li_link.forEach((i) => {
-        if (e.target == i) {
-          i.classList.add('highlight')
-        } else {
-          i.classList.remove('highlight')
-        }
-      })
-      // end of highlight link
+      goal = document.querySelector(`.${item.innerHTML}`)
       let navbar_height = navbar.getBoundingClientRect().height
       window.scrollTo({
         left: 0,
         top: goal.offsetTop - navbar_height,
+        behavior: 'smooth',
       })
       // hide links
       nav_links.classList.toggle('show-links')
