@@ -41,30 +41,58 @@ date.innerHTML = new Date().getFullYear()
 // scroll     ######links
 window.addEventListener('DOMContentLoaded', () => {
   const _li_link = document.querySelectorAll('li')
-  // scroll
+  // function to highlight on scroll
+  function highlight_on_scroll(e) {
+    let navbar_height = navbar.getBoundingClientRect().height
+    let scroll_height = pageYOffset
+    _li_link.forEach((item) => {
+      let g = document.querySelector(`.${item.textContent}`)
+      if (scroll_height >= g.offsetTop - navbar_height) {
+        item.classList.add('highlight')
+        if (
+          scroll_height >=
+          g.getBoundingClientRect().height + g.offsetTop - navbar_height
+        ) {
+          item.classList.remove('highlight')
+        }
+      } else {
+        item.classList.remove('highlight')
+      }
+    })
+  }
+  // end of  function to highlight on scroll
+
+  // highlight link on scroll
+  window.addEventListener('scroll', (e) => highlight_on_scroll(e))
+  // end of highlight link of scroll
+
+  // scroll && smooth
   _li_link.forEach((item) => {
     item.addEventListener('click', (e) => {
       goal = document.querySelector(`.${item.innerHTML}`)
-      // highlight link
-      _li_link.forEach((i) => {
-        if (e.target == i) {
-          i.classList.add('highlight')
-        } else {
-          i.classList.remove('highlight')
-        }
-      })
-      // end of highlight link
+      // highlight link on click
+      // _li_link.forEach((i) => {
+      //   if (e.target == i) {
+      //     i.classList.add('highlight')
+      //   } else {
+      //     i.classList.remove('highlight')
+      //   }
+      // })
+      // end of highlight link on click
       let navbar_height = navbar.getBoundingClientRect().height
+      // scroll on click
       window.scrollTo({
         left: 0,
         top: goal.offsetTop - navbar_height,
         behavior: 'smooth',
       })
+      // end of scroll on click
+
       // hide links
       nav_links.classList.toggle('show-links')
     })
   })
-  // end of scroll
+  // end of scroll & smooth
 })
 // end of scroll  #########links
 
